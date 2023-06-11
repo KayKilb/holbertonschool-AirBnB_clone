@@ -1,45 +1,37 @@
 #!/usr/bin/python3
-"""
-Class that serializes instances to a JSON file
-    and deserializes JSON file to instances
-"""
 import json
 import os
+"""
+Write a class FileStorage
+that serializes instances
+to a JSON file and deserializes
+JSON file to instances
+"""
 
 
-class FileStorage():
-    """serializes instance to JSON file"""
-    __file_path = "file.json"
+class FileStorage:
+    """Serializes and deserializes instances"""
+    __file_path = "saved.json"
     __objects = {}
 
     def all(self):
-        """returns the dictionary __objects"""
-        return self.__objects
+        """returns dictionary __objects"""
+        return FileStorage.__objects
 
     def new(self, obj):
-        """sets in __objects the obj with key <obj class name>.id"""
-        key = "{}.{}".format(obj.__class__.__name__, obj.id)
-        self.__objects[key] = obj
+        """adds an obj and its key in the dict"""
+        FileStorage.__objects[f"{obj.__class__.__name__}.{obj.id}"] = obj
 
     def save(self):
-        """serializes __objects to the JSON file (path: __file_path)"""
-        serialized_objects = {}
-        for key, obj in self.__objects.items():
-            serialized_objects[key] = obj.to_dict()
-        
-        with open(self.__file_path, "w") as file:
-            json.dump(serialized_objects, file)
+        """Serializes __objects to __file_path"""
+        with open(FileStorage.__file_path, "w") as f:
+            out = {}
+            for key, value in FileStorage.__objects.items():
+                out[key] = value.to_dict()
+            json.dump(out, f)
 
     def reload(self):
-        """deserializes the JSON file to __objects (only if the JSON
-            file (__file_path) exists ; otherwise, do nothing. If the
-            file doesn’t exist, no exception should be raised)"""
-        if os.path.exists(self.__file_path):
-            with open(self.__file_path, "r") as file:
-                serialized_objects = json.load(file)
-                
-            for key, obj_dict in serialized_objects.items():
-                class_name = key.split('.')[0]
-                class_ = globals()[class_name]
-                obj = class_(**obj_dict)
-                self.__objects[key] = obj
+        """Deserializes __file_path to __objects"""
+        if os.path.exists(FileStorage.__file_path):
+            with open(FileStorage.__file_path, "r") as f:
+                FileStorage.__objects = json.load(f)
