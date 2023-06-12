@@ -1,32 +1,34 @@
-#!/usr/bin/python3
 import json
-import os
-"""
-Write a class FileStorage
-that serializes instances
-to a JSON file and deserializes
-JSON file to instances
-"""
 
 
 class FileStorage:
-    """Serializes and deserializes instances"""
     __file_path = "file.json"
     __objects = {}
 
     def all(self):
-        """returns dictionary __objects"""
-        return FileStorage.__objects
+        return self.__objects
 
     def new(self, obj):
-        key = obj.__class__.__name__ + "." + obj.id
+        key = "{}.{}".format(obj.__class__.__name__, obj.id)
         self.__objects[key] = obj
 
     def save(self):
-        with open(self.__file_path, 'w') as f:
-            json.dump({k: v.to_dict() for k, v in self.__objects.items()}, f)
+        obj_dict = {}
+        for key, obj in self.__objects.items():
+            obj_dict[key] = obj.to_dict()
+        with open(self.__file_path, 'w') as file:
+            json.dump(obj_dict, file)
 
-    def  def reload(self):
-        if os.path.exists(self.__file_path):
-            with open(self.__file_path, 'r') as f:
-                self.__objects = {k: BaseModel(**v) for k, v in json.load(f).items()
+    def reload(self):
+        try:
+            with open(self.__file_path, 'r') as file:
+                obj_dict = json.load(file)
+
+            from models.base_model import BaseModel
+            for key, value in obj_dict.items():
+                cls_name, obj_id = key.split('.')
+                cls = models.classes[cls_name]
+                obj = cls(**value)
+                self.__objects[key] = obj
+        except FileNotFoundError:
+            pass
