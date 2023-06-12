@@ -1,4 +1,5 @@
-"""This moduleestablishes the FileStorage class for seriealization and decerialization"""
+"""This module establishes the FileStorage
+class for seriealization and decerialization"""
 
 import json
 from models.base_model import BaseModel
@@ -9,8 +10,10 @@ from models.amenity import Amenity
 from models.place import Place
 from models.review import Review
 
+
 class FileStorage:
-    """This class handles serialization and decserialization of JSON file objects"""
+    """This class handles serialization and decserialization 
+    of JSON file objects"""
     __file_path = "file.json"
     __objects = {}
 
