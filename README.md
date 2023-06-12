@@ -12,7 +12,7 @@
 ### How to use it:
 1. Start up the console by typing `./console`.
 2. Type `help` to see what commands are available.
-3. To quit the console, type `Quit` to quit.
+3. To quit the console, type `quit` to quit.
 ### Examples:
 ```
 (hbnb) create BaseModel
