@@ -1,10 +1,8 @@
 {
 	"folders": [
 		{
-			"path": "."
-		},
-		{
-			"path": "../.vscode/TRIMESTER 2/holbertonschool-higher_level_programming"
+			"name": "holbertonschool-web_front_end",
+			"path": "../holbertonschool-web_front_end"
 		}
 	]
 }
