@@ -1,0 +1,1 @@
+This project will focus on webs static. We will be looking at how to create a static website using HTML.
